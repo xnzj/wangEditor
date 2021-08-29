@@ -19,18 +19,14 @@ laravel-admin | extension
 1.x | 1.x
 2.x |2.x
 
-## 截图
-
-![wx20180904-103609](https://user-images.githubusercontent.com/1479100/45007036-65573b80-b02e-11e8-8b27-7ced3db47085.png)
-
 ## 安装
 
 ```bash
 // laravel-admin 1.x
-composer require "laravel-admin-ext/wang-editor:1.*"
+composer require "xnzj/wang-editor-fix:1.*"
 
 // laravel-admin 2.x
-composer require laravel-admin-ext/wang-editor
+composer require xnzj/wang-editor-fix
 ```
 
 然后
