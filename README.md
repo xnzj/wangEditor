@@ -1,6 +1,8 @@
 wangEditor extension for laravel-admin
 ======
 
+从官方 Fork 来的，改一行代码，解决 $form->hasMany 添加多个editor的时候，只有一个生效的问题
+
 这是一个`laravel-admin`扩展，用来将`wangEditor`集成进`laravel-admin`的表单中
 
 laravel-admin | extension
