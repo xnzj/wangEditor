@@ -1,22 +1,80 @@
 wangEditor extension for laravel-admin
 ======
 
-## 只修复了 v1.22
-## 只修复了 v1.22
-## 只修复了 v1.22
-## 只修复了 v1.22
-## 只修复了 v1.22
-## 只修复了 v1.22
+## 请使用 v1.23
+## 请使用 v1.23
+## 请使用 v1.23
 
-## 从官方 Fork 来的，改一行代码，解决 $form->hasMany 添加多个editor的时候，只有一个生效的问题
+## 修改了 render 方法
 ```php
 // Editor.php
-public function render()
-{
-    $this->id = str_replace('.', '', $this->id . microtime(true)); // <-- 就是加这一行
-    $id = $this->formatName($this->id);
+    public function render()
+    {
+        $this->id = str_replace('.', '', $this->id . microtime(true));
 
-    $config = (array) WangEditor::config('config');
+        $config = (array) WangEditor::config('config');
+
+        $config = json_encode(array_merge([
+            'zIndex'              => 0,
+            'uploadImgShowBase64' => true,
+        ], $config, $this->options));
+
+        $token = csrf_token();
+
+        $this->script = <<<EOT
+if (typeof index !== 'undefined') {
+    var id = '$this->id' + index;
+    var id_selector = '#' + id;
+    var input_id = 'input-' + id;
+    var input_id_selector = '#' + input_id;
+
+    $("div[class^='has-many']").each(function(){
+        if ($(this).hasClass('fields-group')){
+            $(this).find("label[for='$this->id']").attr('for', id);
+            $(this).find("div[id='$this->id']").attr('id', id);
+            $(this).find("input[id='input-$this->id']").attr('id', input_id);
+        }
+    })
+    if ($(id_selector).attr('initialized')) {
+        return;
+    }
+
+    var E = window.wangEditor
+    var editor = new E(id_selector);
+    
+    editor.customConfig.uploadImgParams = {_token: '$token'}
+    
+    Object.assign(editor.customConfig, {$config})
+    
+    editor.customConfig.onchange = function (html) {
+        console.log(input_id_selector);
+        $(input_id_selector).val(html);
+    }
+    editor.create();
+    
+    $(id_selector).attr('initialized', 1);
+} else {
+    if ($('#{$this->id}').attr('initialized')) {
+        return;
+    }
+    var E = window.wangEditor
+    var editor = new E('#{$this->id}');
+    
+    editor.customConfig.uploadImgParams = {_token: '$token'}
+    
+    Object.assign(editor.customConfig, {$config})
+    
+    editor.customConfig.onchange = function (html) {
+        console.log('#input-$this->id');
+        $('#input-$this->id').val(html);
+    }
+    editor.create();
+    
+    $('#{$this->id}').attr('initialized', 1);
+}
+EOT;
+        return parent::render();
+    }
 ```
 
 这是一个`laravel-admin`扩展，用来将`wangEditor`集成进`laravel-admin`的表单中
@@ -31,9 +89,6 @@ laravel-admin | extension
 ```bash
 // laravel-admin 1.x
 composer require "xnzj/wang-editor-fix:1.*"
-
-// laravel-admin 2.x
-composer require xnzj/wang-editor-fix
 ```
 
 然后
