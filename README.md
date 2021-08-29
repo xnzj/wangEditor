@@ -1,6 +1,13 @@
 wangEditor extension for laravel-admin
 ======
-## 只修复了 v1.21
+
+## 只修复了 v1.22
+## 只修复了 v1.22
+## 只修复了 v1.22
+## 只修复了 v1.22
+## 只修复了 v1.22
+## 只修复了 v1.22
+
 ## 从官方 Fork 来的，改一行代码，解决 $form->hasMany 添加多个editor的时候，只有一个生效的问题
 ```php
 // Editor.php
