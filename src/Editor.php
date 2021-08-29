@@ -18,6 +18,7 @@ class Editor extends Field
 
     public function render()
     {
+        $this->id = str_replace('.', '', $this->id . microtime(true));
         $id = $this->formatName($this->id);
 
         $config = (array) WangEditor::config('config');
