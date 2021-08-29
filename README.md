@@ -1,9 +1,9 @@
 wangEditor extension for laravel-admin
 ======
 
-## 请使用 v1.23
-## 请使用 v1.23
-## 请使用 v1.23
+## 请使用 v1.2.2
+## 请使用 v1.2.2
+## 请使用 v1.2.2
 
 ## 修改了 render 方法
 ```php
